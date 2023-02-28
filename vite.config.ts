@@ -7,6 +7,7 @@ import renderer from 'vite-plugin-electron-renderer'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import Layouts from 'vite-plugin-vue-layouts'
 import Unocss from 'unocss/vite'
 import Pages from 'vite-plugin-pages'
 import pkg from './package.json'
@@ -109,6 +110,8 @@ export default defineConfig(({ command }) => {
       Pages({
         extensions: ['vue'],
       }),
+      // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
+      Layouts(),
     ],
     server: process.env.VSCODE_DEBUG && (() => {
       const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)

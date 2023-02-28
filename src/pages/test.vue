@@ -5,3 +5,8 @@ const test = ref('lonka test')
 <template>
   <div>{{ test }}</div>
 </template>
+
+<route lang="yaml">
+meta:
+  layout: Admin
+  </route>

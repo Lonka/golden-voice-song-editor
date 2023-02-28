@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { setupLayouts } from 'virtual:generated-layouts'
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import generatedRoutes from '~pages'
 import pinia from '~/modules/pinia'
@@ -11,10 +12,11 @@ import 'uno.css'
 import App from '~/App.vue'
 import '~/samples/node-api'
 
+const routes = setupLayouts(generatedRoutes)
 const router = createRouter({
   // refer to: https://nklayman.github.io/vue-cli-plugin-electron-builder/guide/commonIssues.html
   history: import.meta.env.PROD ? createWebHashHistory() : createWebHistory(import.meta.env.BASE_URL),
-  routes: generatedRoutes,
+  routes,
 })
 
 const vue = createApp(App)
