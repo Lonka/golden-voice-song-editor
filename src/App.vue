@@ -14,7 +14,9 @@ console.log('[App.vue]', `Hello world from Electron ${process.versions.electron}
 
 <template>
   <div>
-    <div>{{ t('labels.home') }}</div>
+    <div class="font-bold">
+      {{ t('labels.home') }}
+    </div>
     <div>{{ pageStore.currentPageName }}</div>
   </div>
   <HelloWorld msg="Electron + Vite + Vue" />

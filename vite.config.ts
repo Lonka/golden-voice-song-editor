@@ -7,6 +7,7 @@ import renderer from 'vite-plugin-electron-renderer'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import Unocss from 'unocss/vite'
 import pkg from './package.json'
 
 // https://vitejs.dev/config/
@@ -100,6 +101,9 @@ export default defineConfig(({ command }) => {
         include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
         dts: 'src/components.d.ts',
       }),
+      // https://github.com/antfu/unocss
+      // see unocss.config.ts for config
+      Unocss(),
     ],
     server: process.env.VSCODE_DEBUG && (() => {
       const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)

@@ -1,7 +1,10 @@
 import { createApp } from 'vue'
 import pinia from '~/modules/pinia'
 import i18n from '~/modules/i18n'
+
+import '@unocss/reset/tailwind.css'
 import '~/style.css'
+import 'uno.css'
 import App from '~/App.vue'
 import '~/samples/node-api'
 
