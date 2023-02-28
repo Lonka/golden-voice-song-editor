@@ -10,8 +10,6 @@ console.log(availableLocales)
 // availableLocales = ['en-US', 'zh-TW']
 locale.value = availableLocales[0]
 
-router.push('/test')
-
 console.log('[App.vue]', `Hello world from Electron ${process.versions.electron}!`)
 </script>
 
@@ -26,6 +24,12 @@ console.log('[App.vue]', `Hello world from Electron ${process.versions.electron}
   <div class="flex-center">
     Place static files into the <code>/public</code> folder
     <img style="width:5em;" src="/node.svg" alt="Node logo">
+  </div>
+  <div @click="router.push('/test')">
+    test
+  </div>
+  <div @click="router.push('/testB')">
+    testB
   </div>
   <RouterView />
 </template>

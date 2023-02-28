@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const test = ref('lonka test')
+const test = ref('lonka testB')
 </script>
 
 <template>
