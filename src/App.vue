@@ -2,12 +2,15 @@
 import { useI18n } from 'vue-i18n'
 
 const pageStore = usePageStore()
+const router = useRouter()
 pageStore.setNewPageName('page name')
 
 const { availableLocales, locale, t } = useI18n()
 console.log(availableLocales)
 // availableLocales = ['en-US', 'zh-TW']
 locale.value = availableLocales[0]
+
+router.push('/test')
 
 console.log('[App.vue]', `Hello world from Electron ${process.versions.electron}!`)
 </script>
@@ -24,6 +27,7 @@ console.log('[App.vue]', `Hello world from Electron ${process.versions.electron}
     Place static files into the <code>/public</code> folder
     <img style="width:5em;" src="/node.svg" alt="Node logo">
   </div>
+  <RouterView />
 </template>
 
 <style>
