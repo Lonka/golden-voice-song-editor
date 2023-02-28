@@ -1,12 +1,13 @@
 import { rmSync } from 'node:fs'
 import path from 'path'
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import electron from 'vite-plugin-electron'
+import Vue from '@vitejs/plugin-vue'
+import Electron from 'vite-plugin-electron'
 import renderer from 'vite-plugin-electron-renderer'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import VueMacros from 'unplugin-vue-macros/vite'
 import Layouts from 'vite-plugin-vue-layouts'
 import Unocss from 'unocss/vite'
 import Pages from 'vite-plugin-pages'
@@ -27,8 +28,7 @@ export default defineConfig(({ command }) => {
       },
     },
     plugins: [
-      vue(),
-      electron([
+      Electron([
         {
           // Main-Process entry file of the Electron App.
           entry: 'electron/main/index.ts',
@@ -112,6 +112,14 @@ export default defineConfig(({ command }) => {
       }),
       // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
       Layouts(),
+      VueMacros({
+        plugins: {
+          vue: Vue({
+            include: [/\.vue$/, /\.md$/],
+            reactivityTransform: true,
+          }),
+        },
+      }),
     ],
     server: process.env.VSCODE_DEBUG && (() => {
       const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)

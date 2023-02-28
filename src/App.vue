@@ -10,7 +10,10 @@ console.log(availableLocales)
 // availableLocales = ['en-US', 'zh-TW']
 locale.value = availableLocales[0]
 
+router.push('/test')
 console.log('[App.vue]', `Hello world from Electron ${process.versions.electron}!`)
+const modelValue = ref('test')
+const count = ref(0)
 </script>
 
 <template>
@@ -20,7 +23,9 @@ console.log('[App.vue]', `Hello world from Electron ${process.versions.electron}
     </div>
     <div>{{ pageStore.currentPageName }}</div>
   </div>
-  <HelloWorld msg="Electron + Vite + Vue" />
+  <HelloWorld v-model:model-value="modelValue" v-model:count="count" msg="Electron + Vite + Vue" />
+  <div>{{ count }}</div>
+  <div>{{ modelValue }}</div>
   <div class="flex-center">
     Place static files into the <code>/public</code> folder
     <img style="width:5em;" src="/node.svg" alt="Node logo">

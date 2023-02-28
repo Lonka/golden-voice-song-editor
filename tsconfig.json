@@ -16,10 +16,21 @@
     "types": [
 			"vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client",
+      "unplugin-vue-macros/macros-global",
 		],
     "paths": {
       "~/*": ["src/*"]
     }
+  },
+  "vueCompilerOptions": {
+    "plugins": [
+      "@vue-macros/volar/define-model",
+      "@vue-macros/volar/define-props",
+      "@vue-macros/volar/define-props-refs",
+      "@vue-macros/volar/short-vmodel",
+      "@vue-macros/volar/define-slots",
+      "@vue-macros/volar/export-props"
+    ]
   },
   "include": ["src"],
   "references": [

@@ -1,23 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import NProgress from 'nprogress'
 
 defineProps<{ msg: string }>()
-
-const count = ref(0)
+defineOptions({
+  name: 'hello-world',
+})
+const { modelValue, count } = defineModel<{
+  modelValue: string
+  count: number
+}>()
 
 const increase = () => {
   NProgress.start()
   useTimeoutFn(() => {
     count.value++
+    modelValue.value = 'lonka'
     NProgress.done()
-  }, 2000)
+  }, 200)
 }
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
-
+  <div>{{ modelValue }}</div>
   <div class="card">
     <button type="button" @click="increase">
       count is {{ count }}
