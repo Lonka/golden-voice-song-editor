@@ -1,8 +1,10 @@
 import { rmSync } from 'node:fs'
+import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import electron from 'vite-plugin-electron'
 import renderer from 'vite-plugin-electron-renderer'
+import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import pkg from './package.json'
 
 // https://vitejs.dev/config/
@@ -21,11 +23,11 @@ export default defineConfig(({ command }) => {
           // Main-Process entry file of the Electron App.
           entry: 'electron/main/index.ts',
           onstart(options) {
-            if (process.env.VSCODE_DEBUG) {
+            if (process.env.VSCODE_DEBUG)
               console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')
-            } else {
+
+            else
               options.startup()
-            }
           },
           vite: {
             build: {
@@ -41,7 +43,7 @@ export default defineConfig(({ command }) => {
         {
           entry: 'electron/preload/index.ts',
           onstart(options) {
-            // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete, 
+            // Notify the Renderer-Process to reload the page when the Preload-Scripts build is complete,
             // instead of restarting the entire Electron App.
             options.reload()
           },
@@ -55,8 +57,15 @@ export default defineConfig(({ command }) => {
               },
             },
           },
-        }
+        },
       ]),
+      // https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n
+      VueI18n({
+        runtimeOnly: true,
+        compositionOnly: true,
+        fullInstall: true,
+        include: [path.resolve(__dirname, 'src/locales/**')],
+      }),
       // Use Node.js API in the Renderer-process
       renderer({
         nodeIntegration: true,

@@ -1,13 +1,22 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import HelloWorld from './components/HelloWorld.vue'
 import { usePageStore } from './stores/page'
+
 const pageStore = usePageStore()
-pageStore.setNewPageName('page n1ame')
+pageStore.setNewPageName('page name')
+
+const { availableLocales, locale, t } = useI18n()
+console.log(availableLocales)
+// availableLocales = ['en-US', 'zh-TW']
+locale.value = availableLocales[0]
+
 console.log('[App.vue]', `Hello world from Electron ${process.versions.electron}!`)
 </script>
 
 <template>
   <div>
+    <div>{{ t('labels.home') }}</div>
     <div>{{ pageStore.currentPageName }}</div>
   </div>
   <HelloWorld msg="Electron + Vite + Vue" />
