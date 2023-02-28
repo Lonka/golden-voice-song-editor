@@ -6,6 +6,7 @@ import electron from 'vite-plugin-electron'
 import renderer from 'vite-plugin-electron-renderer'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import pkg from './package.json'
 
 // https://vitejs.dev/config/
@@ -90,6 +91,14 @@ export default defineConfig(({ command }) => {
           'src/stores',
         ],
         vueTemplate: true,
+      }),
+      // https://github.com/antfu/unplugin-vue-components
+      Components({
+      // allow auto load markdown components under `./src/components/`
+        extensions: ['vue'],
+        // allow auto import and register components used in markdown
+        include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+        dts: 'src/components.d.ts',
       }),
     ],
     server: process.env.VSCODE_DEBUG && (() => {
