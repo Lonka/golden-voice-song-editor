@@ -1,12 +1,12 @@
 <script setup lang="ts">
-const test = ref('lonka testB')
 </script>
 
 <template>
-  <div>{{ test }}</div>
+  <Welcome />
+  <div rel="preload" class="lk-bg-img" />
 </template>
 
 <route lang="yaml">
 meta:
-  layout: Admin
-  </route>
+  layout: none
+</route>

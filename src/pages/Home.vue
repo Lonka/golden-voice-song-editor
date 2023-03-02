@@ -8,5 +8,5 @@ const test = ref('lonka test')
 
 <route lang="yaml">
 meta:
-  layout: Admin
+  layout: MasterPage
   </route>
