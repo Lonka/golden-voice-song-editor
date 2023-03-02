@@ -1,7 +1,7 @@
 <template>
-  <!-- <main-menu /> -->
+  <main-menu />
   <RouterView v-slot="{ Component }">
-    <div class="pt-24px">
+    <div class="pt-70px">
       <component :is="Component" />
     </div>
   </RouterView>
