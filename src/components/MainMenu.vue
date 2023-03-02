@@ -1,10 +1,20 @@
 <script lang="ts" setup>
-const navLinks = ref()
+const navLinks = ref<HTMLDivElement>()
 const openMenu = () => {
-  navLinks.value.style.left = '0'
+  if (navLinks.value)
+    navLinks.value.style.left = '0'
 }
 const closeMenu = () => {
-  navLinks.value.style.left = '-100%'
+  if (navLinks.value)
+    navLinks.value.style.left = '-100%'
+}
+const openSubMenu = (event: any) => {
+  console.log(event.target.parentNode.classList)
+  if (event.target.nodeName === 'Li')
+    event.target.classList.toggle('show-sub-menu')
+  else
+    event.target.parentNode.classList.toggle('show-sub-menu')
+  // event.target.parentNode.lastChild.classList.toggle('show-sub-menu')
 }
 </script>
 
@@ -22,16 +32,16 @@ const closeMenu = () => {
             <i class="i-carbon-close sidebar-close" @click="closeMenu" />
           </div>
           <li><a href="#">Home</a></li>
-          <li>
+          <li @click.stop="openSubMenu">
             <a href="#">HTML & CSS
               <i class="i-carbon-chevron-down arrow level-one-arrow" />
             </a>
 
-            <ul class="level-one-sub-menu sub-menu">
+            <ul class="sub-menu level-one-sub-menu">
               <li><a href="#">Web Design</a></li>
               <li><a href="#">Login Form</a></li>
               <li><a href="#">Card Design</a></li>
-              <li class="level-two-li">
+              <li class="level-two-li" @click.stop="openSubMenu">
                 <a href="#">More
                   <i class="i-carbon-chevron-right arrow level-two-arrow" />
                 </a>
@@ -45,12 +55,12 @@ const closeMenu = () => {
               </li>
             </ul>
           </li>
-          <li>
+          <li @click.stop="openSubMenu">
             <a href="#">Javascript
               <i class="i-carbon-chevron-down arrow level-one-arrow" />
             </a>
 
-            <ul class="level-one-sub-menu sub-menu">
+            <ul class="sub-menu level-one-sub-menu">
               <li><a href="#">Dynamic Calculator</a></li>
               <li><a href="#">Form Validation</a></li>
               <li><a href="#">Calendar</a></li>
@@ -65,7 +75,6 @@ const closeMenu = () => {
   </nav>
 </template>
 
-<!-- https://www.youtube.com/watch?v=AkMIwNpK5jQ 10:20 -->
 <style>
 .main-menu{
   @apply fixed top-0 left-0 w-full shadow-sm;
@@ -212,19 +221,34 @@ const closeMenu = () => {
   }
 
   .main-menu .navbar .nav-links .links .sub-menu,
+  .main-menu .navbar .nav-links .links .sub-menu .level-one-sub-menu,
   .main-menu .navbar .nav-links .links .sub-menu .level-two-sub-menu{
     @apply hidden relative top-0 left-0 shadow-transparent divide-transparent;
   }
+
   .main-menu .navbar .nav-links .links li:hover .level-one-sub-menu{
-    @apply block;
+    @apply hidden;
   }
   .main-menu .navbar .nav-links .links .sub-menu .level-two-li:hover .level-two-sub-menu{
-    @apply block;
+    @apply hidden;
   }
 
   .main-menu .navbar .nav-links .links li:hover .level-one-arrow{
-    @apply transform rotate-0;
+    @apply rotate-0;
   }
+
+  .main-menu .navbar .nav-links .links .show-sub-menu .level-one-sub-menu,
+  .main-menu .navbar .nav-links .links .sub-menu .level-two-li.show-sub-menu .level-two-sub-menu{
+    @apply !block;
+  }
+
+  .main-menu .navbar .nav-links .links .show-sub-menu .level-one-arrow{
+    @apply !rotate-180;
+  }
+  .main-menu .navbar .nav-links .links .sub-menu .level-two-li.show-sub-menu .level-two-arrow{
+    @apply transform rotate-90;
+  }
+
 }
 
 @media (max-width: 369.9px) {
