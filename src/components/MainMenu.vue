@@ -1,4 +1,15 @@
 <script lang="ts" setup>
+interface MenuItem {
+  Id: number
+  NameText: string
+  Icon: string
+  NameI18nKey?: string
+  Disabled?: boolean
+  Hidden?: boolean
+  ToUrl?: string
+  SubMenu?: MenuItem[]
+}
+
 const navLinks = ref<HTMLDivElement>()
 const openMenu = () => {
   if (navLinks.value)
@@ -8,41 +19,132 @@ const closeMenu = () => {
   if (navLinks.value)
     navLinks.value.style.left = '-100%'
 }
-const openSubMenu = (event: any) => {
-  console.log(event.target.parentNode.classList)
-  if (event.target.nodeName === 'Li')
-    event.target.classList.toggle('show-sub-menu')
-  else
-    event.target.parentNode.classList.toggle('show-sub-menu')
-  // event.target.parentNode.lastChild.classList.toggle('show-sub-menu')
+const openSubMenu = (event: any, item: MenuItem) => {
+  console.log(event.target.nodeName)
+  if (item.SubMenu) {
+    if (['I', 'SPAN'].includes(event.target.nodeName))
+      event.target.parentNode.parentNode.classList.toggle('show-sub-menu')
+    else
+      event.target.parentNode.classList.toggle('show-sub-menu')
+  }
 }
+
+const menus: MenuItem[] = [
+  {
+    Id: 1,
+    NameText: 'File',
+    Icon: 'file-storage',
+    SubMenu: [
+      {
+        Id: 2,
+        NameText: 'Open',
+        Icon: 'open',
+        ToUrl: '/open',
+        Disabled: true,
+      },
+      {
+        Id: 3,
+        NameText: 'Save',
+        Icon: 'save',
+        ToUrl: '/save',
+      },
+      {
+        Id: 4,
+        NameText: 'Save As...',
+        Icon: 'save-as',
+        ToUrl: '/save-as',
+      },
+      {
+        Id: 5,
+        NameText: 'Exit',
+        Icon: 'exit',
+        ToUrl: '/exit',
+        Hidden: true,
+      },
+    ],
+  },
+  {
+    Id: 6,
+    NameText: 'Edit',
+    Icon: 'edit',
+    SubMenu: [
+      {
+        Id: 7,
+        NameText: 'Cut',
+        Icon: 'cut',
+        ToUrl: '/cut',
+      },
+      {
+        Id: 8,
+        NameText: 'Copy',
+        Icon: 'copy',
+        ToUrl: '/copy',
+      },
+      {
+        Id: 9,
+        NameText: 'Paste',
+        Icon: 'paste',
+        ToUrl: '/paste',
+        Disabled: true,
+      },
+    ],
+  },
+]
 </script>
 
 <template>
+  <!-- <i class="i-carbon-file-storage" />
+  <i class="i-carbon-edit" /> -->
   <nav class="main-menu">
     <div class="navbar">
       <i class="i-carbon-menu sidebar-open" @click="openMenu" />
+      <!-- logo horizontal -->
       <div class="logo">
         <a href="#">Lonka</a>
       </div>
       <div ref="navLinks" class="nav-links">
+        <!-- logo vertical -->
+        <div class="sidebar-logo">
+          <span class="logo-name">Lonka</span>
+          <i class="i-carbon-close sidebar-close" @click="closeMenu" />
+        </div>
+        <!-- menus -->
         <ul class="links">
-          <div class="sidebar-logo">
-            <span class="logo-name">Lonka</span>
-            <i class="i-carbon-close sidebar-close" @click="closeMenu" />
-          </div>
+          <li v-for="(item) in menus" :key="item.Id">
+            <router-link :to="`${item.ToUrl ? item.ToUrl : ''}`" @click.stop="openSubMenu($event, item)">
+              <i class="mr-2" :class="`i-carbon-${item.Icon}`" />
+              <span class="mr-2">{{ item.NameText }}</span>
+              <i v-if="item.SubMenu" class="i-carbon-chevron-down arrow level-one-arrow" />
+            </router-link>
+            <!-- <a href="#" @click.stop="openSubMenu($event, item)">
+              <i class="mr-2" :class="`i-carbon-${item.Icon}`" />
+              <span class="mr-2">{{ item.NameText }}</span>
+              <i v-if="item.SubMenu" class="i-carbon-chevron-down arrow level-one-arrow" />
+            </a> -->
+            <!-- subMenus -->
+            <ul v-if="item.SubMenu" class="sub-menu level-one-sub-menu">
+              <li v-for="(subItem) in item.SubMenu" :key="subItem.Id">
+                <a href="#">
+                  <!-- <i class="i-carbon-chevron-down" /> -->
+                  <span>{{ subItem.NameText }}</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- menus -->
+        <!-- <ul class="links">
           <li><a href="#">Home</a></li>
-          <li @click.stop="openSubMenu">
-            <a href="#">HTML & CSS
-              <i class="i-carbon-chevron-down arrow level-one-arrow" />
-            </a>
+          <li>
+            <a href="#" @click.stop="openSubMenu">HTML & CSS
 
+            </a>
             <ul class="sub-menu level-one-sub-menu">
               <li><a href="#">Web Design</a></li>
               <li><a href="#">Login Form</a></li>
               <li><a href="#">Card Design</a></li>
-              <li class="level-two-li" @click.stop="openSubMenu">
-                <a href="#">More
+              <li class="level-two-li">
+                <a href="#" @click.stop="openSubMenu">More
                   <i class="i-carbon-chevron-right arrow level-two-arrow" />
                 </a>
 
@@ -55,11 +157,10 @@ const openSubMenu = (event: any) => {
               </li>
             </ul>
           </li>
-          <li @click.stop="openSubMenu">
-            <a href="#">Javascript
+          <li>
+            <a href="#" @click.stop="openSubMenu">Javascript
               <i class="i-carbon-chevron-down arrow level-one-arrow" />
             </a>
-
             <ul class="sub-menu level-one-sub-menu">
               <li><a href="#">Dynamic Calculator</a></li>
               <li><a href="#">Form Validation</a></li>
@@ -69,7 +170,7 @@ const openSubMenu = (event: any) => {
           </li>
           <li><a href="#">About Us</a></li>
           <li><a href="#">Contact Us</a></li>
-        </ul>
+        </ul> -->
       </div>
     </div>
   </nav>
