@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import NProgress from 'nprogress'
+import { pageNames } from './types/global'
 import generatedRoutes from '~pages'
 import pinia from '~/modules/pinia'
 import i18n from '~/modules/i18n'
@@ -20,9 +21,23 @@ const router = createRouter({
   routes,
 })
 
+const changePage = (path: string) => {
+  const pageStore = usePageStore()
+  switch (path) {
+    case '/':
+      pageStore.changePageTo(pageNames.Index)
+      break
+    case '/Home':
+      pageStore.changePageTo(pageNames.Home)
+      break
+  }
+}
+
 router.beforeEach((to, from) => {
-  if (to.path !== from.path)
+  if (to.path !== from.path) {
+    changePage(to.path)
     NProgress.start()
+  }
 })
 
 router.afterEach(() => {

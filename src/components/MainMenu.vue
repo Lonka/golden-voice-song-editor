@@ -20,8 +20,7 @@ const closeMenu = () => {
     navLinks.value.style.left = '-100%'
 }
 const openSubMenu = (event: any, item: MenuItem) => {
-  console.log(event.target.nodeName)
-  if (item.SubMenu) {
+  if (item.SubMenu && !item.Disabled) {
     if (['I', 'SPAN'].includes(event.target.nodeName))
       event.target.parentNode.parentNode.classList.toggle('show-sub-menu')
     else
@@ -37,9 +36,9 @@ const menus: MenuItem[] = [
     SubMenu: [
       {
         Id: 2,
-        NameText: 'Open',
-        Icon: 'open',
-        ToUrl: '/open',
+        NameText: 'Index',
+        Icon: 'folder-open',
+        ToUrl: '/',
         Disabled: true,
       },
       {
@@ -67,6 +66,7 @@ const menus: MenuItem[] = [
     Id: 6,
     NameText: 'Edit',
     Icon: 'edit',
+    Disabled: true,
     SubMenu: [
       {
         Id: 7,
@@ -94,6 +94,7 @@ const menus: MenuItem[] = [
 
 <template>
   <!-- <i class="i-carbon-file-storage" />
+    <i class="i-carbon-folder-open" />
   <i class="i-carbon-edit" /> -->
   <nav class="main-menu">
     <div class="navbar">
@@ -110,8 +111,11 @@ const menus: MenuItem[] = [
         </div>
         <!-- menus -->
         <ul class="links">
-          <li v-for="(item) in menus" :key="item.Id">
-            <router-link :to="`${item.ToUrl ? item.ToUrl : ''}`" @click.stop="openSubMenu($event, item)">
+          <li v-for="(item) in menus" :key="item.Id" :disabled="item.Disabled">
+            <router-link
+              :to="`${item.ToUrl ? item.ToUrl : ''}`"
+              @click.stop="openSubMenu($event, item)"
+            >
               <i class="mr-2" :class="`i-carbon-${item.Icon}`" />
               <span class="mr-2">{{ item.NameText }}</span>
               <i v-if="item.SubMenu" class="i-carbon-chevron-down arrow level-one-arrow" />
@@ -124,10 +128,10 @@ const menus: MenuItem[] = [
             <!-- subMenus -->
             <ul v-if="item.SubMenu" class="sub-menu level-one-sub-menu">
               <li v-for="(subItem) in item.SubMenu" :key="subItem.Id">
-                <a href="#">
-                  <!-- <i class="i-carbon-chevron-down" /> -->
-                  <span>{{ subItem.NameText }}</span>
-                </a>
+                <router-link :to="`${subItem.ToUrl ? subItem.ToUrl : ''}`" @click.stop="openSubMenu($event, subItem)">
+                  <i class="mr-2" :class="`i-carbon-${subItem.Icon}`" />
+                  <span class="mr-2">{{ subItem.NameText }}</span>
+                </router-link>
               </li>
             </ul>
           </li>
@@ -222,6 +226,10 @@ const menus: MenuItem[] = [
   font-size: 16px;
 }
 
+.main-menu .navbar .nav-links .links li[disabled]{
+  @apply text-gray;
+}
+
 .main-menu .navbar .nav-links .links li .arrow{
   @apply text-center transition-all duration-300 inline-block;
   line-height: 70px;
@@ -229,10 +237,10 @@ const menus: MenuItem[] = [
   height: 16px;
 }
 
-.main-menu .navbar .nav-links .links li:hover .level-one-arrow{
+.main-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-arrow{
   @apply transform rotate-180;
 }
-.main-menu .navbar .nav-links .links li:hover .level-one-sub-menu{
+.main-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-sub-menu{
   @apply block;
 }
 /* end of link li */
