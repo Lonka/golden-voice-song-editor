@@ -2,6 +2,9 @@
 :root {
   --lk-app-min-width: 1280px;
   --lk-app-min-height: 800px;
+  --lk-theme-dark: 33,33,33;
+  --lk-theme-hover: 54,54,54;
+  --lk-theme-primary: 33,150,243;
 
   /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
   font-family: 'Poppins', sans-serif;

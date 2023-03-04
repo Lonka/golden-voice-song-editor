@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+const { currentPageIndex } = toRefs(usePageStore())
 interface MenuItem {
   Id: number
   NameText: string
@@ -28,6 +29,21 @@ const openSubMenu = (event: any, item: MenuItem) => {
   }
 }
 
+const getToUrl = (item: MenuItem): string => {
+  if (item.Disabled)
+    return ''
+  if (!item.ToUrl)
+    return ''
+  return item.ToUrl
+}
+
+const isSelected = (item: MenuItem): boolean => {
+  if (item.Id === currentPageIndex.value)
+    return true
+
+  return false
+}
+
 const menus: MenuItem[] = [
   {
     Id: 1,
@@ -35,14 +51,14 @@ const menus: MenuItem[] = [
     Icon: 'file-storage',
     SubMenu: [
       {
-        Id: 2,
+        Id: 0,
         NameText: 'Index',
         Icon: 'folder-open',
         ToUrl: '/',
-        Disabled: true,
+        // Disabled: true,
       },
       {
-        Id: 3,
+        Id: 1,
         NameText: 'Save',
         Icon: 'save',
         ToUrl: '/save',
@@ -51,7 +67,27 @@ const menus: MenuItem[] = [
         Id: 4,
         NameText: 'Save As...',
         Icon: 'save-as',
-        ToUrl: '/save-as',
+        SubMenu: [
+          {
+            Id: 1,
+            NameText: 'Cut',
+            Icon: 'cut',
+            ToUrl: '/cut',
+          },
+          {
+            Id: 8,
+            NameText: 'Copy',
+            Icon: 'copy',
+            ToUrl: '/copy',
+          },
+          {
+            Id: 9,
+            NameText: 'Paste',
+            Icon: 'paste',
+            ToUrl: '/paste',
+            Disabled: true,
+          },
+        ],
       },
       {
         Id: 5,
@@ -111,30 +147,41 @@ const menus: MenuItem[] = [
         </div>
         <!-- menus -->
         <ul class="links">
-          <li v-for="(item) in menus" :key="item.Id" :disabled="item.Disabled">
-            <router-link
-              :to="`${item.ToUrl ? item.ToUrl : ''}`"
-              @click.stop="openSubMenu($event, item)"
-            >
-              <i class="mr-2" :class="`i-carbon-${item.Icon}`" />
-              <span class="mr-2">{{ item.NameText }}</span>
-              <i v-if="item.SubMenu" class="i-carbon-chevron-down arrow level-one-arrow" />
-            </router-link>
-            <!-- <a href="#" @click.stop="openSubMenu($event, item)">
-              <i class="mr-2" :class="`i-carbon-${item.Icon}`" />
-              <span class="mr-2">{{ item.NameText }}</span>
-              <i v-if="item.SubMenu" class="i-carbon-chevron-down arrow level-one-arrow" />
-            </a> -->
-            <!-- subMenus -->
-            <ul v-if="item.SubMenu" class="sub-menu level-one-sub-menu">
-              <li v-for="(subItem) in item.SubMenu" :key="subItem.Id">
-                <router-link :to="`${subItem.ToUrl ? subItem.ToUrl : ''}`" @click.stop="openSubMenu($event, subItem)">
-                  <i class="mr-2" :class="`i-carbon-${subItem.Icon}`" />
-                  <span class="mr-2">{{ subItem.NameText }}</span>
-                </router-link>
-              </li>
-            </ul>
-          </li>
+          <template v-for="(item) in menus" :key="item.Id">
+            <li v-if="!item.Hidden" :disabled="item.Disabled" :class="{ 'menu-item-selected': isSelected(item) }">
+              <router-link
+                :to="getToUrl(item)"
+                @click.stop="openSubMenu($event, item)"
+              >
+                <i class="mr-2" :class="`i-carbon-${item.Icon}`" />
+                <span class="mr-2">{{ item.NameText }}</span>
+                <i v-if="item.SubMenu" class="i-carbon-chevron-down arrow level-one-arrow" />
+              </router-link>
+              <!-- subMenus -->
+              <ul v-if="item.SubMenu" class="sub-menu level-one-sub-menu">
+                <template v-for="(subItem) in item.SubMenu" :key="subItem.Id">
+                  <li v-if="!subItem.Hidden" class="level-two-li" :disabled="subItem.Disabled" :class="{ 'menu-item-selected': isSelected(subItem) }">
+                    <router-link :to="getToUrl(subItem)" @click.stop="openSubMenu($event, subItem)">
+                      <i class="mr-2" :class="`i-carbon-${subItem.Icon}`" />
+                      <span class="mr-2">{{ subItem.NameText }}</span>
+                      <i v-if="subItem.SubMenu" class="i-carbon-chevron-right arrow level-two-arrow" />
+                    </router-link>
+                    <!-- sub2Menus -->
+                    <ul v-if="subItem.SubMenu" class="sub-menu level-two-sub-menu">
+                      <template v-for="(sub2Item) in subItem.SubMenu" :key="sub2Item.Id">
+                        <li v-if="!sub2Item.Hidden" :disabled="sub2Item.Disabled" :class="{ 'menu-item-selected': isSelected(sub2Item) }">
+                          <router-link :to="getToUrl(sub2Item)" @click.stop="openSubMenu($event, sub2Item)">
+                            <i class="mr-2" :class="`i-carbon-${sub2Item.Icon}`" />
+                            <span class="mr-2">{{ sub2Item.NameText }}</span>
+                          </router-link>
+                        </li>
+                      </template>
+                    </ul>
+                  </li>
+                </template>
+              </ul>
+            </li>
+          </template>
         </ul>
         <!-- menus -->
         <!-- <ul class="links">
@@ -184,7 +231,7 @@ const menus: MenuItem[] = [
 .main-menu{
   @apply fixed top-0 left-0 w-full shadow-sm;
   height: 70px;
-  background: #3e8da8;
+  background: rgb(var(--lk-theme-dark));
 }
 
 /* bar */
@@ -216,18 +263,27 @@ const menus: MenuItem[] = [
 
 /* link li */
 .main-menu .navbar .nav-links .links li{
-  @apply list-none relative flex items-center py-0;
-  padding-left: 14px;
-  padding-right: 14px;
+  @apply list-none relative flex items-center p-0;
 }
 
 .main-menu .navbar .nav-links .links li a{
   @apply h-full no-underline whitespace-nowrap font-medium flex items-center;
   font-size: 16px;
+  padding-left: 14px;
+  padding-right: 14px;
 }
 
-.main-menu .navbar .nav-links .links li[disabled]{
-  @apply text-gray;
+.main-menu .navbar .nav-links .links .menu-item-selected > a:first-child{
+  color:rgb(var(--lk-theme-primary));
+  background:rgba(var(--lk-theme-primary),0.12);
+}
+
+/* .main-menu .navbar .nav-links .links .menu-item-selected > a{
+  color:white;
+} */
+
+.main-menu .navbar .nav-links .links li[disabled] > a:first-child{
+  @apply text-gray cursor-not-allowed;
 }
 
 .main-menu .navbar .nav-links .links li .arrow{
@@ -237,41 +293,49 @@ const menus: MenuItem[] = [
   height: 16px;
 }
 
+/* hover */
+.main-menu .navbar .nav-links .links li:hover:not([disabled]){
+  background: rgb(var(--lk-theme-hover));
+}
+
 .main-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-arrow{
   @apply transform rotate-180;
 }
 .main-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-sub-menu{
-  @apply block;
+  @apply visible opacity-100;
+  top: 70px
 }
 /* end of link li */
 
 /* sub menu */
 .main-menu .navbar .nav-links .links .sub-menu{
   /*  */
-  @apply absolute left-0 leading-10 shadow-sm divide-y divide-white divide-opacity-10 hidden;
-  top: 70px;
-  background: #3e8da8;
+  @apply absolute left-0 leading-10 shadow-sm divide-y divide-white divide-opacity-10 invisible transition-all duration-300 opacity-0;
+  top: 50px;
+  background: rgb(var(--lk-theme-dark));
   border-radius: 0 0 4px 4px;
 }
 .main-menu .navbar .nav-links .links .sub-menu li{
-  @apply py-0 ;
-  padding-left: 22px;
-  padding-right: 22px;
+  @apply p-0 ;
 }
 .main-menu .navbar .nav-links .links .sub-menu li a{
-  @apply font-medium;
+  @apply font-medium w-full;
   font-size: 14px;
+  padding-left: 22px;
+  padding-right: 22px;
 }
 .main-menu .navbar .nav-links .links .sub-menu li .level-two-arrow{
   line-height: 40px;
 }
 
-.main-menu .navbar .nav-links .links .sub-menu .level-two-li:hover .level-two-sub-menu{
-  @apply block;
+/* hover */
+.main-menu .navbar .nav-links .links .sub-menu .level-two-li:hover:not([disabled]) .level-two-sub-menu{
+  @apply visible opacity-100 top-0;
 }
 
 .main-menu .navbar .nav-links .links .level-two-sub-menu{
-  @apply absolute top-0 left-full hidden;
+  @apply absolute left-full invisible transition-all duration-300 opacity-0;
+  top: -20px;
   border-radius: 0 4px 4px 4px;
 }
 /* end of sub menu */
@@ -293,12 +357,12 @@ const menus: MenuItem[] = [
     @apply text-2xl;
   }
   .main-menu .navbar .nav-links .links li {
-    @apply py-0;
-    padding-left: 20px;
-    padding-right: 20px;
+    @apply p-0;
   }
   .main-menu .navbar .nav-links .links li a{
     font-size: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
@@ -307,7 +371,7 @@ const menus: MenuItem[] = [
   .main-menu .navbar .nav-links{
     @apply block fixed top-0 -left-full w-full transition-all duration-300;
     max-width: 270px;
-    background: #3e8da8;
+    background: rgb(var(--lk-theme-dark));
   }
   .main-menu .navbar .nav-links .sidebar-logo{
     @apply flex items-center justify-between leading-10;
@@ -325,30 +389,60 @@ const menus: MenuItem[] = [
     @apply block;
   }
   .main-menu .navbar .nav-links .links li {
-    @apply block;
+    @apply block p-0;
     line-height: 40px;
+  }
+  .main-menu .navbar .nav-links .links li a{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* .main-menu .navbar .nav-links .links .menu-item-selected > a:first-child{
+    color:rgb(var(--lk-theme-primary));
+    background:rgba(var(--lk-theme-primary),0.12);
+  } */
+
+  .main-menu .navbar .nav-links .links .sub-menu li{
+    @apply py-0 ;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .main-menu .navbar .nav-links .links .sub-menu li a{
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .main-menu .navbar .nav-links .links .sub-menu,
   .main-menu .navbar .nav-links .links .sub-menu .level-one-sub-menu,
   .main-menu .navbar .nav-links .links .sub-menu .level-two-sub-menu{
-    @apply hidden relative top-0 left-0 shadow-transparent divide-transparent;
+    @apply hidden !invisible relative !top-0 left-0 shadow-transparent divide-transparent opacity-100;
   }
 
-  .main-menu .navbar .nav-links .links li:hover .level-one-sub-menu{
+  /* hover */
+  .main-menu .navbar .nav-links .links li:hover:not([disabled]){
+    background: transparent;
+  }
+  .main-menu .navbar .nav-links .links li:not([disabled]) a:hover{
+    background: rgb(var(--lk-theme-hover));
+  }
+  .main-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-sub-menu{
     @apply hidden;
   }
-  .main-menu .navbar .nav-links .links .sub-menu .level-two-li:hover .level-two-sub-menu{
-    @apply hidden;
-  }
-
-  .main-menu .navbar .nav-links .links li:hover .level-one-arrow{
+  .main-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-arrow{
     @apply rotate-0;
   }
+  .main-menu .navbar .nav-links .links .sub-menu .level-two-li:hover:not([disabled]) .level-two-sub-menu{
+    @apply hidden;
+  }
 
+  /* show menu */
   .main-menu .navbar .nav-links .links .show-sub-menu .level-one-sub-menu,
   .main-menu .navbar .nav-links .links .sub-menu .level-two-li.show-sub-menu .level-two-sub-menu{
-    @apply !block;
+    @apply !block !visible;
+  }
+
+  .main-menu .navbar .nav-links .links .show-sub-menu > a:first-child{
+    color: rgb(var(--lk-theme-primary))
   }
 
   .main-menu .navbar .nav-links .links .show-sub-menu .level-one-arrow{
