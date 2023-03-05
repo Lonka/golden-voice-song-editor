@@ -1,15 +1,18 @@
 <script lang="ts" setup>
+import type { MenuItem } from '~/types/global'
+const props = defineProps<{
+  menus: MenuItem[]
+  hiddenLogo?: boolean
+
+}>()
+
+onMounted(() => {
+  if (props.hiddenLogo) {
+
+  }
+})
+
 const { currentPageIndex } = toRefs(usePageStore())
-interface MenuItem {
-  Id: number
-  NameText: string
-  Icon: string
-  NameI18nKey?: string
-  Disabled?: boolean
-  Hidden?: boolean
-  ToUrl?: string
-  SubMenu?: MenuItem[]
-}
 
 const navLinks = ref<HTMLDivElement>()
 const openMenu = () => {
@@ -43,89 +46,6 @@ const isSelected = (item: MenuItem): boolean => {
 
   return false
 }
-
-const menus: MenuItem[] = [
-  {
-    Id: 1,
-    NameText: 'File',
-    Icon: 'file-storage',
-    SubMenu: [
-      {
-        Id: 0,
-        NameText: 'Index',
-        Icon: 'folder-open',
-        ToUrl: '/',
-        // Disabled: true,
-      },
-      {
-        Id: 1,
-        NameText: 'Save',
-        Icon: 'save',
-        ToUrl: '/save',
-      },
-      {
-        Id: 4,
-        NameText: 'Save As...',
-        Icon: 'save-as',
-        SubMenu: [
-          {
-            Id: 1,
-            NameText: 'Cut',
-            Icon: 'cut',
-            ToUrl: '/cut',
-          },
-          {
-            Id: 8,
-            NameText: 'Copy',
-            Icon: 'copy',
-            ToUrl: '/copy',
-          },
-          {
-            Id: 9,
-            NameText: 'Paste',
-            Icon: 'paste',
-            ToUrl: '/paste',
-            Disabled: true,
-          },
-        ],
-      },
-      {
-        Id: 5,
-        NameText: 'Exit',
-        Icon: 'exit',
-        ToUrl: '/exit',
-        Hidden: true,
-      },
-    ],
-  },
-  {
-    Id: 6,
-    NameText: 'Edit',
-    Icon: 'edit',
-    Disabled: true,
-    SubMenu: [
-      {
-        Id: 7,
-        NameText: 'Cut',
-        Icon: 'cut',
-        ToUrl: '/cut',
-      },
-      {
-        Id: 8,
-        NameText: 'Copy',
-        Icon: 'copy',
-        ToUrl: '/copy',
-      },
-      {
-        Id: 9,
-        NameText: 'Paste',
-        Icon: 'paste',
-        ToUrl: '/paste',
-        Disabled: true,
-      },
-    ],
-  },
-]
 </script>
 
 <template>
@@ -147,7 +67,7 @@ const menus: MenuItem[] = [
         </div>
         <!-- menus -->
         <ul class="links">
-          <template v-for="(item) in menus" :key="item.Id">
+          <template v-for="(item) in props.menus" :key="item.Id">
             <li v-if="!item.Hidden" :disabled="item.Disabled" :class="{ 'menu-item-selected': isSelected(item) }">
               <router-link
                 :to="getToUrl(item)"
@@ -230,7 +150,7 @@ const menus: MenuItem[] = [
 <style>
 .main-menu{
   @apply fixed top-0 left-0 w-full shadow-sm;
-  height: 70px;
+  height: var(--lk-menu-height);
   background: rgb(var(--lk-theme-dark));
 }
 
@@ -253,7 +173,7 @@ const menus: MenuItem[] = [
 /* link collection */
 .main-menu .navbar .nav-links {
   @apply h-full;
-  line-height: 70px;
+  line-height: var(--lk-menu-height);
 }
 
 /* link ul */
@@ -288,7 +208,7 @@ const menus: MenuItem[] = [
 
 .main-menu .navbar .nav-links .links li .arrow{
   @apply text-center transition-all duration-300 inline-block;
-  line-height: 70px;
+  line-height: var(--lk-menu-height);
   width: 16px;
   height: 16px;
 }
@@ -303,15 +223,14 @@ const menus: MenuItem[] = [
 }
 .main-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-sub-menu{
   @apply visible opacity-100;
-  top: 70px
+  top: var(--lk-menu-height);
 }
 /* end of link li */
 
 /* sub menu */
 .main-menu .navbar .nav-links .links .sub-menu{
   /*  */
-  @apply absolute left-0 leading-10 shadow-sm divide-y divide-white divide-opacity-10 invisible transition-all duration-300 opacity-0;
-  top: 50px;
+  @apply absolute top-0 left-0 leading-10 shadow-sm divide-y divide-white divide-opacity-10 invisible transition-all duration-300 opacity-0;
   background: rgb(var(--lk-theme-dark));
   border-radius: 0 0 4px 4px;
 }
@@ -375,7 +294,7 @@ const menus: MenuItem[] = [
   }
   .main-menu .navbar .nav-links .sidebar-logo{
     @apply flex items-center justify-between leading-10;
-    height: 70px;
+    height: var(--lk-menu-height);
     padding-left: 20px;
     padding-right: 20px;
   }
