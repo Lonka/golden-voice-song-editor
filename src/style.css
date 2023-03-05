@@ -52,6 +52,10 @@
   @apply flex flex-auto flex-col min-w-screen min-h-screen max-w-full relative;
 }
 
+.lk-container{
+  padding-top: var(--lk-menu-height);
+}
+
 .lk-bg-img{
   @apply w-full h-full bg-no-repeat bg-cover bg-center -z-1 absolute top-0 left-0 bg-black;
   background-image:url("/src/assets/background.png")

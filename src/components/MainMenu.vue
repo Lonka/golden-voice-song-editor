@@ -65,8 +65,10 @@ const isSelected = (item: MenuItem): boolean => {
 
 <template>
   <!-- <i class="i-carbon-file-storage" />
-    <i class="i-carbon-folder-open" />
-  <i class="i-carbon-edit" /> -->
+    <i class="i-carbon-exit" />
+    <i class="i-carbon-trophy" />
+    <i class="i-carbon-document-export" />
+  <i class="i-carbon-music" /> -->
   <nav class="main-menu">
     <div class="navbar">
       <i class="i-carbon-menu sidebar-open" @click="openMenu" />
@@ -120,45 +122,6 @@ const isSelected = (item: MenuItem): boolean => {
             </li>
           </template>
         </ul>
-        <!-- menus -->
-        <!-- <ul class="links">
-          <li><a href="#">Home</a></li>
-          <li>
-            <a href="#" @click.stop="openSubMenu">HTML & CSS
-
-            </a>
-            <ul class="sub-menu level-one-sub-menu">
-              <li><a href="#">Web Design</a></li>
-              <li><a href="#">Login Form</a></li>
-              <li><a href="#">Card Design</a></li>
-              <li class="level-two-li">
-                <a href="#" @click.stop="openSubMenu">More
-                  <i class="i-carbon-chevron-right arrow level-two-arrow" />
-                </a>
-
-                <ul class="sub-menu level-two-sub-menu">
-                  <li><a href="#">Dynamic Calculator</a></li>
-                  <li><a href="#">Form Validation</a></li>
-                  <li><a href="#">Calendar</a></li>
-                  <li><a href="#">Digital Clock</a></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#" @click.stop="openSubMenu">Javascript
-              <i class="i-carbon-chevron-down arrow level-one-arrow" />
-            </a>
-            <ul class="sub-menu level-one-sub-menu">
-              <li><a href="#">Dynamic Calculator</a></li>
-              <li><a href="#">Form Validation</a></li>
-              <li><a href="#">Calendar</a></li>
-              <li><a href="#">Digital Clock</a></li>
-            </ul>
-          </li>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Contact Us</a></li>
-        </ul> -->
       </div>
     </div>
   </nav>
@@ -247,9 +210,9 @@ const isSelected = (item: MenuItem): boolean => {
 /* sub menu */
 .main-menu .navbar .nav-links .links .sub-menu{
   /*  */
-  @apply absolute top-0 left-0 leading-10 shadow-sm divide-y divide-white divide-opacity-10 invisible transition-all duration-300 opacity-0;
+  @apply absolute top-0 left-0 leading-10 shadow-sm divide-y divide-white divide-opacity-10 invisible transition-all duration-300 opacity-0 min-w-100px;
   background: rgb(var(--lk-theme-dark));
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 10px 10px;
 }
 .main-menu .navbar .nav-links .links .sub-menu li{
   @apply p-0 ;
@@ -270,9 +233,9 @@ const isSelected = (item: MenuItem): boolean => {
 }
 
 .main-menu .navbar .nav-links .links .level-two-sub-menu{
-  @apply absolute left-full invisible transition-all duration-300 opacity-0;
+  @apply absolute left-full invisible transition-all duration-300 opacity-0 min-w-100px;
   top: -20px;
-  border-radius: 0 4px 4px 4px;
+  border-radius: 0 10px 10px 10px;
 }
 /* end of sub menu */
 

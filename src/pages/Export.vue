@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const test = ref('lonka test')
+
 </script>
 
 <template>
-  <div>{{ test }}</div>
+  <div>Export</div>
 </template>
 
 <route lang="yaml">

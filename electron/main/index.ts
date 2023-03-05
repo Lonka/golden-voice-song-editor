@@ -1,6 +1,7 @@
 import { release } from 'node:os'
 import { join } from 'node:path'
 import { BrowserWindow, Menu, app, ipcMain, shell } from 'electron'
+import '../services/database'
 
 // The built directory structure
 //

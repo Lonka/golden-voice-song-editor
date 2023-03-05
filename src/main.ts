@@ -30,6 +30,15 @@ const changePage = (path: string) => {
     case '/Home':
       pageStore.changePageTo(pageNames.Home)
       break
+    case '/Song':
+      pageStore.changePageTo(pageNames.Song)
+      break
+    case '/Ranking':
+      pageStore.changePageTo(pageNames.Ranking)
+      break
+    case '/Export':
+      pageStore.changePageTo(pageNames.Export)
+      break
   }
 }
 

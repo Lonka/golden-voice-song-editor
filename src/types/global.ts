@@ -1,6 +1,9 @@
 export enum pageNames {
-  Index,
-  Home,
+  Index = -1,
+  Home = 0,
+  Song = 2,
+  Ranking,
+  Export,
 }
 
 export enum density {
