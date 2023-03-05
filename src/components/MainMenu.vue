@@ -127,7 +127,7 @@ const isSelected = (item: MenuItem): boolean => {
   </nav>
 </template>
 
-<style>
+<style scoped>
 .main-menu{
   @apply fixed top-0 left-0 w-full shadow-sm;
   height: var(--lk-menu-height);
