@@ -3,6 +3,12 @@ export enum pageNames {
   Home,
 }
 
+export enum density {
+  Default = 1,
+  Comfortable,
+  Compact,
+}
+
 export interface MenuItem {
   Id: number
   NameText: string

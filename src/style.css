@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Music&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Music&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,700&display=swap'); */
 :root {
   --lk-app-min-width: 1280px;
   --lk-app-min-height: 800px;
@@ -6,9 +6,12 @@
   --lk-theme-hover: 54,54,54;
   --lk-theme-primary: 33,150,243;
   --lk-menu-height: 70px;
+  --lk-menu-navbar-padding-x: 50px;
+  --lk-menu-item-padding-x: 16px;
+  --lk-menu-item-font-size: 16px;
 
-  /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
-  font-family: 'Poppins', sans-serif;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: 'Poppins', sans-serif; */
   line-height: 1.5;
   font-weight: 400;
 

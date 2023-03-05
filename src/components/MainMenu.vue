@@ -1,14 +1,29 @@
 <script lang="ts" setup>
 import type { MenuItem } from '~/types/global'
+import { density } from '~/types/global'
 const props = defineProps<{
   menus: MenuItem[]
   hiddenLogo?: boolean
-
+  density?: density // global.density
 }>()
 
 onMounted(() => {
-  if (props.hiddenLogo) {
-
+  if (props.hiddenLogo)
+    document.documentElement.style.setProperty('--lk-menu-navbar-padding-x', '10px')
+  if (props.density) {
+    switch (props.density) {
+      case density.Default:
+      case density.Comfortable:
+        document.documentElement.style.setProperty('--lk-menu-height', '70px')
+        document.documentElement.style.setProperty('--lk-menu-item-padding-x', '16px')
+        document.documentElement.style.setProperty('--lk-menu-item-font-size', '16px')
+        break
+      case density.Compact:
+        document.documentElement.style.setProperty('--lk-menu-height', '40px')
+        document.documentElement.style.setProperty('--lk-menu-item-padding-x', '10px')
+        document.documentElement.style.setProperty('--lk-menu-item-font-size', '14px')
+        break
+    }
   }
 })
 
@@ -56,13 +71,15 @@ const isSelected = (item: MenuItem): boolean => {
     <div class="navbar">
       <i class="i-carbon-menu sidebar-open" @click="openMenu" />
       <!-- logo horizontal -->
-      <div class="logo">
+      <div v-if="!props.hiddenLogo" class="logo">
         <a href="#">Lonka</a>
       </div>
       <div ref="navLinks" class="nav-links">
         <!-- logo vertical -->
         <div class="sidebar-logo">
-          <span class="logo-name">Lonka</span>
+          <div>
+            <span v-if="!props.hiddenLogo" class="logo-name">Lonka</span>
+          </div>
           <i class="i-carbon-close sidebar-close" @click="closeMenu" />
         </div>
         <!-- menus -->
@@ -157,9 +174,9 @@ const isSelected = (item: MenuItem): boolean => {
 /* bar */
 .main-menu .navbar{
   @apply m-auto flex items-center justify-between h-full py-0;
-  max-width: 1250px;
-  padding-left: 50px;
-  padding-right: 50px;
+  /* max-width: 1250px; */
+  padding-left: var(--lk-menu-navbar-padding-x);
+  padding-right: var(--lk-menu-navbar-padding-x);
 }
 
 /* logo */
@@ -188,9 +205,9 @@ const isSelected = (item: MenuItem): boolean => {
 
 .main-menu .navbar .nav-links .links li a{
   @apply h-full no-underline whitespace-nowrap font-medium flex items-center;
-  font-size: 16px;
-  padding-left: 14px;
-  padding-right: 14px;
+  font-size: var(--lk-menu-item-font-size);
+  padding-left: var(--lk-menu-item-padding-x);
+  padding-right: var(--lk-menu-item-padding-x);
 }
 
 .main-menu .navbar .nav-links .links .menu-item-selected > a:first-child{
@@ -239,9 +256,9 @@ const isSelected = (item: MenuItem): boolean => {
 }
 .main-menu .navbar .nav-links .links .sub-menu li a{
   @apply font-medium w-full;
-  font-size: 14px;
-  padding-left: 22px;
-  padding-right: 22px;
+  font-size: calc(var(--lk-menu-item-font-size) - 2px);
+  padding-left: var(--lk-menu-item-padding-x);
+  padding-right: var(--lk-menu-item-padding-x);
 }
 .main-menu .navbar .nav-links .links .sub-menu li .level-two-arrow{
   line-height: 40px;
@@ -279,7 +296,6 @@ const isSelected = (item: MenuItem): boolean => {
     @apply p-0;
   }
   .main-menu .navbar .nav-links .links li a{
-    font-size: 15px;
     padding-left: 20px;
     padding-right: 20px;
   }

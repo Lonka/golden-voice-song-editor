@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { density } from '~/types/global'
 const menus: MenuItem[] = [
   {
     Id: 1,
@@ -84,7 +85,7 @@ const menus: MenuItem[] = [
 </script>
 
 <template>
-  <main-menu :menus="menus" />
+  <main-menu :menus="menus" :density="density.Compact" hidden-logo />
   <RouterView v-slot="{ Component }">
     <div class="pt-70px">
       <component :is="Component" />
