@@ -91,6 +91,7 @@ const isSelected = (item: MenuItem): boolean => {
       <div v-if="!props.hiddenLogo" class="logo">
         <a href="#">Lonka</a>
       </div>
+      <!-- menu -->
       <div ref="navLinks" class="nav-links">
         <!-- logo vertical -->
         <div class="sidebar-logo">
@@ -138,6 +139,7 @@ const isSelected = (item: MenuItem): boolean => {
           </template>
         </ul>
       </div>
+      <!-- end of menu -->
     </div>
   </nav>
 </template>

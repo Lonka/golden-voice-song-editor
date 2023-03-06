@@ -3,7 +3,13 @@
 </script>
 
 <template>
-  <div>Song</div>
+  <div class="flex justify-between">
+    <search-bar />
+    <button>new</button>
+  </div>
+  <div>
+    1222
+  </div>
 </template>
 
 <route lang="yaml">
