@@ -15,7 +15,7 @@ export enum density {
 export interface MenuItem {
   Id: number
   NameText: string
-  Icon: string
+  Icon?: string
   NameI18nKey?: string
   Disabled?: boolean
   Hidden?: boolean

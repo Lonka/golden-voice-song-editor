@@ -1,4 +1,9 @@
 labels:
   home: Home
+  file: File
+  exit: Exit
+  song: Song
+  ranking: Ranking
+  export: Export
 messages:
   successful: Successful

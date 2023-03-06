@@ -1,5 +1,10 @@
 labels:
   home: 首頁
+  file: 檔案
+  exit: 離開
+  song: 歌曲
+  ranking: 排名
+  export: 匯出
 messages:
   successful: 成功
 

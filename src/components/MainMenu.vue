@@ -7,6 +7,9 @@ const props = defineProps<{
   density?: density // global.density
 }>()
 
+const { currentPageIndex } = toRefs(usePageStore())
+const { t } = useI18n()
+const navLinks = ref<HTMLDivElement>()
 onMounted(() => {
   if (props.hiddenLogo)
     document.documentElement.style.setProperty('--lk-menu-navbar-padding-x', '10px')
@@ -27,9 +30,6 @@ onMounted(() => {
   }
 })
 
-const { currentPageIndex } = toRefs(usePageStore())
-
-const navLinks = ref<HTMLDivElement>()
 const openMenu = () => {
   if (navLinks.value)
     navLinks.value.style.left = '0'
@@ -108,7 +108,7 @@ const isSelected = (item: MenuItem): boolean => {
                 @click.stop="clickLink($event, item)"
               >
                 <i class="mr-2" :class="`i-carbon-${item.Icon}`" />
-                <span class="mr-2">{{ item.NameText }}</span>
+                <span class="mr-2">{{ item.NameI18nKey ? t(`labels.${item.NameI18nKey}`) : item.NameText }}</span>
                 <i v-if="item.SubMenu" class="i-carbon-chevron-down arrow level-one-arrow" />
               </router-link>
               <!-- subMenus -->
@@ -117,7 +117,7 @@ const isSelected = (item: MenuItem): boolean => {
                   <li v-if="!subItem.Hidden" class="level-two-li" :disabled="subItem.Disabled" :class="{ 'menu-item-selected': isSelected(subItem) }">
                     <router-link :to="getToUrl(subItem)" @click.stop="clickLink($event, subItem)">
                       <i class="mr-2" :class="`i-carbon-${subItem.Icon}`" />
-                      <span class="mr-2">{{ subItem.NameText }}</span>
+                      <span class="mr-2">{{ subItem.NameI18nKey ? t(`labels.${subItem.NameI18nKey}`) : subItem.NameText }}</span>
                       <i v-if="subItem.SubMenu" class="i-carbon-chevron-right arrow level-two-arrow" />
                     </router-link>
                     <!-- sub2Menus -->
@@ -126,7 +126,7 @@ const isSelected = (item: MenuItem): boolean => {
                         <li v-if="!sub2Item.Hidden" :disabled="sub2Item.Disabled" :class="{ 'menu-item-selected': isSelected(sub2Item) }">
                           <router-link :to="getToUrl(sub2Item)" @click.stop="clickLink($event, sub2Item)">
                             <i class="mr-2" :class="`i-carbon-${sub2Item.Icon}`" />
-                            <span class="mr-2">{{ sub2Item.NameText }}</span>
+                            <span class="mr-2">{{ sub2Item.NameI18nKey ? t(`labels.${sub2Item.NameI18nKey}`) : sub2Item.NameText }}</span>
                           </router-link>
                         </li>
                       </template>
