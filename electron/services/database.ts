@@ -12,6 +12,7 @@ ipcMain.on('get-menus', async (event) => {
           Id: 99,
           NameText: 'Exit',
           Icon: 'exit',
+          Action: 'exit',
         },
       ],
     },

@@ -34,11 +34,26 @@ const openMenu = () => {
   if (navLinks.value)
     navLinks.value.style.left = '0'
 }
+
 const closeMenu = () => {
   if (navLinks.value)
     navLinks.value.style.left = '-100%'
 }
-const openSubMenu = (event: any, item: MenuItem) => {
+
+const linkActionProcessor = (action: string) => {
+  switch (action) {
+    case 'exit':
+      useSystem().exitApp()
+      break
+  }
+}
+
+const clickLink = (event: any, item: MenuItem) => {
+  if (item.Action) {
+    linkActionProcessor(item.Action)
+    return
+  }
+
   if (item.SubMenu && !item.Disabled) {
     if (['I', 'SPAN'].includes(event.target.nodeName))
       event.target.parentNode.parentNode.classList.toggle('show-sub-menu')
@@ -90,7 +105,7 @@ const isSelected = (item: MenuItem): boolean => {
             <li v-if="!item.Hidden" :disabled="item.Disabled" :class="{ 'menu-item-selected': isSelected(item) }">
               <router-link
                 :to="getToUrl(item)"
-                @click.stop="openSubMenu($event, item)"
+                @click.stop="clickLink($event, item)"
               >
                 <i class="mr-2" :class="`i-carbon-${item.Icon}`" />
                 <span class="mr-2">{{ item.NameText }}</span>
@@ -100,7 +115,7 @@ const isSelected = (item: MenuItem): boolean => {
               <ul v-if="item.SubMenu" class="sub-menu level-one-sub-menu">
                 <template v-for="(subItem) in item.SubMenu" :key="subItem.Id">
                   <li v-if="!subItem.Hidden" class="level-two-li" :disabled="subItem.Disabled" :class="{ 'menu-item-selected': isSelected(subItem) }">
-                    <router-link :to="getToUrl(subItem)" @click.stop="openSubMenu($event, subItem)">
+                    <router-link :to="getToUrl(subItem)" @click.stop="clickLink($event, subItem)">
                       <i class="mr-2" :class="`i-carbon-${subItem.Icon}`" />
                       <span class="mr-2">{{ subItem.NameText }}</span>
                       <i v-if="subItem.SubMenu" class="i-carbon-chevron-right arrow level-two-arrow" />
@@ -109,7 +124,7 @@ const isSelected = (item: MenuItem): boolean => {
                     <ul v-if="subItem.SubMenu" class="sub-menu level-two-sub-menu">
                       <template v-for="(sub2Item) in subItem.SubMenu" :key="sub2Item.Id">
                         <li v-if="!sub2Item.Hidden" :disabled="sub2Item.Disabled" :class="{ 'menu-item-selected': isSelected(sub2Item) }">
-                          <router-link :to="getToUrl(sub2Item)" @click.stop="openSubMenu($event, sub2Item)">
+                          <router-link :to="getToUrl(sub2Item)" @click.stop="clickLink($event, sub2Item)">
                             <i class="mr-2" :class="`i-carbon-${sub2Item.Icon}`" />
                             <span class="mr-2">{{ sub2Item.NameText }}</span>
                           </router-link>

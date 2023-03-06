@@ -20,5 +20,6 @@ export interface MenuItem {
   Disabled?: boolean
   Hidden?: boolean
   ToUrl?: string
+  Action?: string
   SubMenu?: MenuItem[]
 }
