@@ -10,6 +10,12 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    InputText: typeof import('./components/InputText.vue')['default']
+    LkField: typeof import('./components/LkField.vue')['default']
+    LkInput: typeof import('./components/LkInput.vue')['default']
+    LkMenu: typeof import('./components/LkMenu.vue')['default']
+    LkSearchBar: typeof import('./components/LkSearchBar.vue')['default']
+    LkTextField: typeof import('./components/LkTextField.vue')['default']
     MainMenu: typeof import('./components/MainMenu.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

@@ -5,7 +5,7 @@ const menus = useDao.getMenus()
 </script>
 
 <template>
-  <main-menu :menus="menus" :density="density.Compact" hidden-logo />
+  <lk-menu :menus="menus" :density="density.Compact" hidden-logo />
   <RouterView v-slot="{ Component }">
     <div class="lk-container">
       <component :is="Component" />

@@ -6,7 +6,9 @@ const props = defineProps<{
   hiddenLogo?: boolean
   density?: density // global.density
 }>()
-
+defineOptions({
+  name: 'lk-menu',
+})
 const { currentPageIndex } = toRefs(usePageStore())
 const { t } = useI18n()
 const navLinks = ref<HTMLDivElement>()
@@ -84,7 +86,7 @@ const isSelected = (item: MenuItem): boolean => {
     <i class="i-carbon-trophy" />
     <i class="i-carbon-document-export" />
   <i class="i-carbon-music" /> -->
-  <nav class="main-menu">
+  <nav class="lk-menu">
     <div class="navbar">
       <i class="i-carbon-menu sidebar-open" @click="openMenu" />
       <!-- logo horizontal -->
@@ -145,14 +147,14 @@ const isSelected = (item: MenuItem): boolean => {
 </template>
 
 <style scoped>
-.main-menu{
-  @apply fixed top-0 left-0 w-full shadow-sm;
+.lk-menu{
+  @apply fixed top-0 left-0 w-full shadow-sm z-1;
   height: var(--lk-menu-height);
   background: rgb(var(--lk-theme-dark));
 }
 
 /* bar */
-.main-menu .navbar{
+.lk-menu .navbar{
   @apply m-auto flex items-center justify-between h-full py-0;
   /* max-width: 1250px; */
   padding-left: var(--lk-menu-navbar-padding-x);
@@ -160,50 +162,50 @@ const isSelected = (item: MenuItem): boolean => {
 }
 
 /* logo */
-.main-menu .navbar .logo a{
+.lk-menu .navbar .logo a{
   @apply text-3xl font-600 no-underline;
 }
-.main-menu .navbar .sidebar-open{
+.lk-menu .navbar .sidebar-open{
   @apply hidden;
 }
 
 /* link collection */
-.main-menu .navbar .nav-links {
+.lk-menu .navbar .nav-links {
   @apply h-full;
   line-height: var(--lk-menu-height);
 }
 
 /* link ul */
-.main-menu .navbar .nav-links .links{
+.lk-menu .navbar .nav-links .links{
   @apply flex;
 }
 
 /* link li */
-.main-menu .navbar .nav-links .links li{
+.lk-menu .navbar .nav-links .links li{
   @apply list-none relative flex items-center p-0;
 }
 
-.main-menu .navbar .nav-links .links li a{
+.lk-menu .navbar .nav-links .links li a{
   @apply h-full no-underline whitespace-nowrap font-medium flex items-center;
   font-size: var(--lk-menu-item-font-size);
   padding-left: var(--lk-menu-item-padding-x);
   padding-right: var(--lk-menu-item-padding-x);
 }
 
-.main-menu .navbar .nav-links .links .menu-item-selected > a:first-child{
+.lk-menu .navbar .nav-links .links .menu-item-selected > a:first-child{
   color:rgb(var(--lk-theme-primary));
   background:rgba(var(--lk-theme-primary),0.12);
 }
 
-/* .main-menu .navbar .nav-links .links .menu-item-selected > a{
+/* .lk-menu .navbar .nav-links .links .menu-item-selected > a{
   color:white;
 } */
 
-.main-menu .navbar .nav-links .links li[disabled] > a:first-child{
+.lk-menu .navbar .nav-links .links li[disabled] > a:first-child{
   @apply text-gray cursor-not-allowed;
 }
 
-.main-menu .navbar .nav-links .links li .arrow{
+.lk-menu .navbar .nav-links .links li .arrow{
   @apply text-center transition-all duration-300 inline-block;
   line-height: var(--lk-menu-height);
   width: 16px;
@@ -211,71 +213,71 @@ const isSelected = (item: MenuItem): boolean => {
 }
 
 /* hover */
-.main-menu .navbar .nav-links .links li:hover:not([disabled]){
+.lk-menu .navbar .nav-links .links li:hover:not([disabled]){
   background: rgb(var(--lk-theme-hover));
 }
 
-.main-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-arrow{
+.lk-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-arrow{
   @apply transform rotate-180;
 }
-.main-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-sub-menu{
+.lk-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-sub-menu{
   @apply visible opacity-100;
   top: var(--lk-menu-height);
 }
 /* end of link li */
 
 /* sub menu */
-.main-menu .navbar .nav-links .links .sub-menu{
+.lk-menu .navbar .nav-links .links .sub-menu{
   /*  */
   @apply absolute top-0 left-0 leading-10 shadow-sm divide-y divide-white divide-opacity-10 invisible transition-all duration-300 opacity-0 min-w-100px;
   background: rgb(var(--lk-theme-dark));
   border-radius: 0 0 10px 10px;
 }
-.main-menu .navbar .nav-links .links .sub-menu li{
+.lk-menu .navbar .nav-links .links .sub-menu li{
   @apply p-0 ;
 }
-.main-menu .navbar .nav-links .links .sub-menu li a{
+.lk-menu .navbar .nav-links .links .sub-menu li a{
   @apply font-medium w-full;
   font-size: calc(var(--lk-menu-item-font-size) - 2px);
   padding-left: var(--lk-menu-item-padding-x);
   padding-right: var(--lk-menu-item-padding-x);
 }
-.main-menu .navbar .nav-links .links .sub-menu li .level-two-arrow{
+.lk-menu .navbar .nav-links .links .sub-menu li .level-two-arrow{
   line-height: 40px;
 }
 
 /* hover */
-.main-menu .navbar .nav-links .links .sub-menu .level-two-li:hover:not([disabled]) .level-two-sub-menu{
+.lk-menu .navbar .nav-links .links .sub-menu .level-two-li:hover:not([disabled]) .level-two-sub-menu{
   @apply visible opacity-100 top-0;
 }
 
-.main-menu .navbar .nav-links .links .level-two-sub-menu{
+.lk-menu .navbar .nav-links .links .level-two-sub-menu{
   @apply absolute left-full invisible transition-all duration-300 opacity-0 min-w-100px;
   top: -20px;
   border-radius: 0 10px 10px 10px;
 }
 /* end of sub menu */
 
-.main-menu .navbar .nav-links .sidebar-logo .logo-name,
-.main-menu .navbar .nav-links .sidebar-logo .sidebar-close,
-.main-menu .navbar .sidebar-open{
+.lk-menu .navbar .nav-links .sidebar-logo .logo-name,
+.lk-menu .navbar .nav-links .sidebar-logo .sidebar-close,
+.lk-menu .navbar .sidebar-open{
   @apply hidden;
 }
 
 /* Enable utility when the screen width is less than 1024px */
 @media (max-width: 1023.9px) {
-  .main-menu .navbar{
+  .lk-menu .navbar{
     @apply max-w-full py-0;
     padding-left: 25px;
     padding-right: 25px;
   }
-  .main-menu .navbar .logo a{
+  .lk-menu .navbar .logo a{
     @apply text-2xl;
   }
-  .main-menu .navbar .nav-links .links li {
+  .lk-menu .navbar .nav-links .links li {
     @apply p-0;
   }
-  .main-menu .navbar .nav-links .links li a{
+  .lk-menu .navbar .nav-links .links li a{
     padding-left: 20px;
     padding-right: 20px;
   }
@@ -283,94 +285,94 @@ const isSelected = (item: MenuItem): boolean => {
 
 /* Enable utility when the screen width is less than 768px */
 @media (max-width: 767.9px) {
-  .main-menu .navbar .nav-links{
+  .lk-menu .navbar .nav-links{
     @apply block fixed top-0 -left-full w-full transition-all duration-300;
     max-width: 270px;
     background: rgb(var(--lk-theme-dark));
   }
-  .main-menu .navbar .nav-links .sidebar-logo{
+  .lk-menu .navbar .nav-links .sidebar-logo{
     @apply flex items-center justify-between leading-10;
     height: var(--lk-menu-height);
     padding-left: 20px;
     padding-right: 20px;
   }
-  .main-menu .navbar .nav-links .sidebar-logo .logo-name,
-  .main-menu .navbar .nav-links .sidebar-logo .sidebar-close,
-  .main-menu .navbar .sidebar-open{
+  .lk-menu .navbar .nav-links .sidebar-logo .logo-name,
+  .lk-menu .navbar .nav-links .sidebar-logo .sidebar-close,
+  .lk-menu .navbar .sidebar-open{
     @apply font-medium block;
     font-size: 25px;
   }
-  .main-menu .navbar .nav-links .links{
+  .lk-menu .navbar .nav-links .links{
     @apply block;
   }
-  .main-menu .navbar .nav-links .links li {
+  .lk-menu .navbar .nav-links .links li {
     @apply block p-0;
     line-height: 40px;
   }
-  .main-menu .navbar .nav-links .links li a{
+  .lk-menu .navbar .nav-links .links li a{
     padding-left: 20px;
     padding-right: 20px;
   }
 
-  /* .main-menu .navbar .nav-links .links .menu-item-selected > a:first-child{
+  /* .lk-menu .navbar .nav-links .links .menu-item-selected > a:first-child{
     color:rgb(var(--lk-theme-primary));
     background:rgba(var(--lk-theme-primary),0.12);
   } */
 
-  .main-menu .navbar .nav-links .links .sub-menu li{
+  .lk-menu .navbar .nav-links .links .sub-menu li{
     @apply py-0 ;
     padding-left: 10px;
     padding-right: 10px;
   }
-  .main-menu .navbar .nav-links .links .sub-menu li a{
+  .lk-menu .navbar .nav-links .links .sub-menu li a{
     padding-left: 20px;
     padding-right: 20px;
   }
 
-  .main-menu .navbar .nav-links .links .sub-menu,
-  .main-menu .navbar .nav-links .links .sub-menu .level-one-sub-menu,
-  .main-menu .navbar .nav-links .links .sub-menu .level-two-sub-menu{
+  .lk-menu .navbar .nav-links .links .sub-menu,
+  .lk-menu .navbar .nav-links .links .sub-menu .level-one-sub-menu,
+  .lk-menu .navbar .nav-links .links .sub-menu .level-two-sub-menu{
     @apply hidden !invisible relative !top-0 left-0 shadow-transparent divide-transparent opacity-100;
   }
 
   /* hover */
-  .main-menu .navbar .nav-links .links li:hover:not([disabled]){
+  .lk-menu .navbar .nav-links .links li:hover:not([disabled]){
     background: transparent;
   }
-  .main-menu .navbar .nav-links .links li:not([disabled]) a:hover{
+  .lk-menu .navbar .nav-links .links li:not([disabled]) a:hover{
     background: rgb(var(--lk-theme-hover));
   }
-  .main-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-sub-menu{
+  .lk-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-sub-menu{
     @apply hidden;
   }
-  .main-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-arrow{
+  .lk-menu .navbar .nav-links .links li:hover:not([disabled]) .level-one-arrow{
     @apply rotate-0;
   }
-  .main-menu .navbar .nav-links .links .sub-menu .level-two-li:hover:not([disabled]) .level-two-sub-menu{
+  .lk-menu .navbar .nav-links .links .sub-menu .level-two-li:hover:not([disabled]) .level-two-sub-menu{
     @apply hidden;
   }
 
   /* show menu */
-  .main-menu .navbar .nav-links .links .show-sub-menu .level-one-sub-menu,
-  .main-menu .navbar .nav-links .links .sub-menu .level-two-li.show-sub-menu .level-two-sub-menu{
+  .lk-menu .navbar .nav-links .links .show-sub-menu .level-one-sub-menu,
+  .lk-menu .navbar .nav-links .links .sub-menu .level-two-li.show-sub-menu .level-two-sub-menu{
     @apply !block !visible;
   }
 
-  .main-menu .navbar .nav-links .links .show-sub-menu > a:first-child{
+  .lk-menu .navbar .nav-links .links .show-sub-menu > a:first-child{
     color: rgb(var(--lk-theme-primary))
   }
 
-  .main-menu .navbar .nav-links .links .show-sub-menu .level-one-arrow{
+  .lk-menu .navbar .nav-links .links .show-sub-menu .level-one-arrow{
     @apply !rotate-180;
   }
-  .main-menu .navbar .nav-links .links .sub-menu .level-two-li.show-sub-menu .level-two-arrow{
+  .lk-menu .navbar .nav-links .links .sub-menu .level-two-li.show-sub-menu .level-two-arrow{
     @apply transform rotate-90;
   }
 
 }
 
 @media (max-width: 369.9px) {
-  .main-menu .navbar .nav-links{
+  .lk-menu .navbar .nav-links{
     @apply max-w-full;
   }
 }
